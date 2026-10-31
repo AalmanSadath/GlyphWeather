@@ -28,6 +28,24 @@ Glyph Interface → Flip to Glyph → Always-on Glyph Toy).
 The forecast refreshes about every 30 minutes. The only data sent anywhere is the city name
 you search for and your chosen city's coordinates, both to Open-Meteo.
 
+## Verifying a download
+
+APKs on the [Releases](https://github.com/AalmanSadath/GlyphWeather/releases) page are built by
+GitHub Actions and signed with a key whose SHA-256 certificate fingerprint is:
+
+```
+4363d984708d3e0c12d32d17ce01be637031dbe74102af2a8a147c23eee91913
+```
+
+Check a download against it with `apksigner` from the Android SDK build tools:
+
+```sh
+apksigner verify --print-certs GlyphWeather-v0.1.0.apk
+```
+
+Each release also has a `.sha256` file; `sha256sum -c GlyphWeather-v0.1.0.apk.sha256` checks
+the APK was not corrupted in transit.
+
 ## Building
 
 Requirements: JDK 17 or newer and the Android SDK (platform 36).
