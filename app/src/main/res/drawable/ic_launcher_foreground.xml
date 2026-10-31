@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Launcher icon: a sun behind a cloud, kept inside the 66dp adaptive-icon safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.6"
+        android:scaleY="0.6"
+        android:translateX="24"
+        android:translateY="24">
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M62,22a14,14 0,1 1,0 28a14,14 0,1 1,0 -28z" />
+        <path
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="5"
+            android:strokeLineCap="round"
+            android:pathData="M62,6V12 M84,36H90 M78,20L82,16 M78,52L82,56 M46,20L42,16" />
+        <path
+            android:fillColor="#000000"
+            android:pathData="M18,86h52a18,18 0,0 0,0 -36a24,24 0,0 0,-46 6a15,15 0,0 0,-6 30z" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M20,82h50a14,14 0,0 0,0 -28a20,20 0,0 0,-38.5 5.5a12,12 0,0 0,-11.5 22.5z" />
+    </group>
+</vector>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="icon_test_label">Glyph Weather icon test</string>
+    <string name="icon_test_toy_name">[Debug] Icon tester</string>
+    <string name="icon_test_toy_summary">Debug build only. Always animates and ignores settings. Long-press to step through every icon.</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Placeholder toy preview: a sun on the round matrix outline. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M50,32a18,18 0,1 1,0 36a18,18 0,1 1,0 -36z" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:pathData="M50,6V18 M50,82V94 M6,50H18 M82,50H94 M19,19L27,27 M73,73L81,81 M19,81L27,73 M73,27L81,19" />
+</vector>

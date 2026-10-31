@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Glyph Weather</string>
+    <string name="toy_name">Weather</string>
+    <string name="toy_summary">Current weather, today\'s high and low, and the chance of rain. Long-press to switch pages.</string>
+
+    <!-- Location -->
+    <string name="section_location">Location</string>
+    <string name="no_city">No city chosen yet</string>
+    <string name="choose_city">Choose city</string>
+    <string name="change_city">Change</string>
+    <string name="search_title">Find your city</string>
+    <string name="search_hint">City name</string>
+    <string name="searching">Searching…</string>
+    <string name="search_no_results">No matches</string>
+    <string name="search_failed">Couldn\'t reach Open-Meteo. Check your connection.</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Weather status -->
+    <string name="section_weather">Weather</string>
+    <string name="weather_waiting">Waiting for the first forecast…</string>
+    <string name="weather_now">%1$s, %2$s</string>
+    <string name="weather_updated">Updated %1$s</string>
+    <string name="refresh_now">Refresh now</string>
+
+    <!-- Units -->
+    <string name="section_units">Temperature</string>
+
+    <!-- Pages -->
+    <string name="section_pages">Pages</string>
+    <string name="pages_hint">Long-press the Glyph Button to move to the next page.</string>
+    <string name="page_current">Now</string>
+    <string name="page_current_summary">Weather icon and temperature</string>
+    <string name="page_animation">Animation</string>
+    <string name="page_animation_summary">Full-size weather animation</string>
+    <string name="page_hi_lo">High / low</string>
+    <string name="page_hi_lo_summary">Today\'s high above, low below</string>
+    <string name="page_rain">Rain</string>
+    <string name="page_rain_summary">Chance of rain, next 12 hours</string>
+    <string name="move_up">Move up</string>
+    <string name="move_down">Move down</string>
+
+    <!-- Animation -->
+    <string name="section_animation">Animation</string>
+    <string name="animate">Animate</string>
+    <string name="animate_summary">While you\'re using the phone</string>
+    <string name="animate_aod">Animate on always-on display</string>
+    <string name="animate_aod_summary">Off holds a still frame, which uses less power</string>
+
+    <!-- Toy -->
+    <string name="activate_toy">Add to Glyph Toys</string>
+    <string name="activate_toy_failed">Open Settings → Glyph Interface → Glyph Toys and add Weather.</string>
+    <string name="attribution">Weather data by Open-Meteo.com</string>
+
+    <!-- Conditions -->
+    <string name="condition_clear">Clear</string>
+    <string name="condition_partly_cloudy">Partly cloudy</string>
+    <string name="condition_cloudy">Cloudy</string>
+    <string name="condition_fog">Fog</string>
+    <string name="condition_drizzle">Drizzle</string>
+    <string name="condition_rain">Rain</string>
+    <string name="condition_sleet">Sleet</string>
+    <string name="condition_snow">Snow</string>
+    <string name="condition_thunderstorm">Thunderstorm</string>
+    <string name="condition_windy">Windy</string>
+</resources>

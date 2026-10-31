@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Toy preview shown in Glyph Toys settings: a sun behind a cloud. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M62,22a14,14 0,1 1,0 28a14,14 0,1 1,0 -28z" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="5"
+        android:strokeLineCap="round"
+        android:pathData="M62,6V12 M84,36H90 M78,20L82,16 M78,52L82,56 M46,20L42,16" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M18,86h52a18,18 0,0 0,0 -36a24,24 0,0 0,-46 6a15,15 0,0 0,-6 30z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M20,82h50a14,14 0,0 0,0 -28a20,20 0,0 0,-38.5 5.5a12,12 0,0 0,-11.5 22.5z" />
+</vector>
