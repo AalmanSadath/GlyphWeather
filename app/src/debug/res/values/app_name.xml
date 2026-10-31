@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Debug builds install next to the release build, so label them apart. -->
+    <string name="app_name">Glyph Weather (debug)</string>
+    <string name="toy_name">Weather (debug)</string>
+</resources>

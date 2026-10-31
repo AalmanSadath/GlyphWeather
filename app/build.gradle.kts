@@ -1,11 +1,22 @@
 import java.net.URI
 import java.security.MessageDigest
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
+
+// Release signing: read from keystore.properties in the project root (never committed) or from
+// environment variables, so CI can sign too. Without either, release builds come out unsigned.
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("keystore.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+
+fun signingValue(property: String, env: String): String? =
+    keystoreProperties.getProperty(property) ?: System.getenv(env)
 
 android {
     namespace = "dev.aalman.glyph.weather"
@@ -19,9 +30,26 @@ android {
         versionName = "0.1.0"
     }
 
+    signingConfigs {
+        val storePath = signingValue("storeFile", "GLYPHWEATHER_KEYSTORE")
+        if (storePath != null) {
+            create("release") {
+                storeFile = rootProject.file(storePath)
+                storePassword = signingValue("storePassword", "GLYPHWEATHER_KEYSTORE_PASSWORD")
+                keyAlias = signingValue("keyAlias", "GLYPHWEATHER_KEY_ALIAS")
+                keyPassword = signingValue("keyPassword", "GLYPHWEATHER_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
+        debug {
+            // Lets a debug build sit next to the signed release on the same phone.
+            applicationIdSuffix = ".debug"
+        }
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.findByName("release")
         }
     }
 

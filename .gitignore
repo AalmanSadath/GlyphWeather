@@ -9,3 +9,8 @@ local.properties
 # Nothing's Glyph Matrix SDK may not be redistributed (GDK EULA §2.1(c));
 # the build downloads it into app/libs instead.
 app/libs/
+
+# Release signing key and its passwords.
+keystore.properties
+*.jks
+*.keystore
