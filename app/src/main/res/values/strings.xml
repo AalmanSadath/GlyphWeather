@@ -41,6 +41,10 @@
     <string name="move_down">Move down</string>
 
     <!-- Animation -->
+    <string name="section_icons">Icons</string>
+    <string name="icons_nothing">Nothing</string>
+    <string name="icons_original">Original</string>
+    <string name="icons_hint">Nothing uses the animations from the Nothing Weather widget. With it, the Animation page shows a heat animation at 40 °C and above and a cold one at −10 °C and below.</string>
     <string name="section_animation">Animation</string>
     <string name="animate">Animate</string>
     <string name="animate_summary">While you\'re using the phone</string>
@@ -51,6 +55,7 @@
     <string name="activate_toy">Add to Glyph Toys</string>
     <string name="activate_toy_failed">Open Settings → Glyph Interface → Glyph Toys and add Weather.</string>
     <string name="attribution">Weather data by Open-Meteo.com</string>
+    <string name="art_credit">Weather animations © Nothing Technology Limited</string>
 
     <!-- Conditions -->
     <string name="condition_clear">Clear</string>

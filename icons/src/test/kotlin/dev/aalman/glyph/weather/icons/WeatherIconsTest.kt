@@ -84,4 +84,26 @@ class WeatherIconsTest {
         }
         assertTrue(anim.frames.any { f -> f.any { it > 0 } }, "$c is blank")
     }
+
+    @Test
+    fun `centred small icons sit on the middle column without losing pixels`() {
+        for (condition in Condition.entries) {
+            val centred = WeatherIcons.smallCentred(condition, y = 1)
+            var left = Matrix.SIZE
+            var right = -1
+            for (frame in centred.frames) for (i in frame.indices) if (frame[i] > 0) {
+                left = minOf(left, i % Matrix.SIZE)
+                right = maxOf(right, i % Matrix.SIZE)
+            }
+            val centre = (left + right) / 2.0
+            assertTrue(centre == 12.0 || centre == 12.5, "$condition centred on column $centre")
+            // At (6, 6) the whole 12×12 sprite is inside the LED circle, so nothing is clipped there.
+            val unclipped = WeatherIcons.small(condition, 6, 6)
+            assertEquals(
+                unclipped.frames.sumOf { f -> f.count { it > 0 } },
+                centred.frames.sumOf { f -> f.count { it > 0 } },
+                "$condition loses pixels to the round edge",
+            )
+        }
+    }
 }

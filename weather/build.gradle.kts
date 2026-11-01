@@ -16,6 +16,7 @@ kotlin {
 
 dependencies {
     api(project(":icons"))
+    api(project(":nothing-art"))
     api(libs.kotlinx.serialization.json)
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly(libs.junit.platform.launcher)

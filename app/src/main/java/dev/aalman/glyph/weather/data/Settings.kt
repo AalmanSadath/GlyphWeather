@@ -38,6 +38,13 @@ class Settings(context: Context) {
     val enabledPages: List<Page>
         get() = pageOrder.filterNot { it in disabledPages }.ifEmpty { listOf(Page.CURRENT) }
 
+    /** Nothing's animations by default; falls back to the original icons when they aren't bundled. */
+    var iconStyle: IconStyle
+        get() = prefs.getString(KEY_ICON_STYLE, null)
+            ?.let { name -> IconStyle.entries.firstOrNull { it.name == name } }
+            ?: IconStyle.NOTHING
+        set(value) = prefs.edit().putString(KEY_ICON_STYLE, value.name).apply()
+
     /** Animate while the phone is in use. */
     var animate: Boolean
         get() = prefs.getBoolean(KEY_ANIMATE, true)
@@ -54,6 +61,7 @@ class Settings(context: Context) {
         private const val KEY_UNIT = "unit"
         private const val KEY_PAGE_ORDER = "page_order"
         private const val KEY_DISABLED_PAGES = "disabled_pages"
+        private const val KEY_ICON_STYLE = "icon_style"
         private const val KEY_ANIMATE = "animate"
         private const val KEY_ANIMATE_AOD = "animate_aod"
     }

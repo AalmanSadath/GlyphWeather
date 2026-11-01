@@ -19,3 +19,4 @@ rootProject.name = "GlyphWeather"
 include(":app")
 include(":icons")
 include(":weather")
+include(":nothing-art")

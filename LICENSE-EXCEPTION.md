@@ -14,3 +14,7 @@ SDK.
 The Nothing Glyph Matrix SDK is not part of this repository and is not covered by the GPL. It
 is distributed by Nothing Technology Limited under its own license:
 <https://github.com/Nothing-Developer-Programme/GlyphMatrix-Developer-Kit/blob/main/LICENSE.md>
+
+The weather animations in `nothing-art/src/main/resources/nothing-art/` are © Nothing
+Technology Limited. They are not covered by the GPL or by this permission; see
+`nothing-art/NOTICE.md`.

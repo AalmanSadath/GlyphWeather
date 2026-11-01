@@ -16,6 +16,7 @@ object WeatherIcons {
 
     /** Size in LEDs of the icons returned by [small]. */
     const val SMALL_SIZE = SmallIcons.SIZE
+    private const val PROBE = 6
 
     /** Full-screen animation for [condition]. */
     fun animation(condition: Condition): Animation {
@@ -33,6 +34,25 @@ object WeatherIcons {
      * ([x], [y]), for layouts that share the matrix with text.
      */
     fun small(condition: Condition, x: Int, y: Int): Animation = SmallIcons.animation(condition, x, y)
+
+    /**
+     * [small] with its top edge at [y] and its lit pixels centred on the matrix's middle column.
+     * The sprites' lit widths range from 8 to 12, so a fixed position puts some up to 1.5 LEDs
+     * off centre. Icons with an even lit width sit half an LED right.
+     */
+    fun smallCentred(condition: Condition, y: Int): Animation {
+        // Measure at (6, 6), where the whole sprite is inside the LED circle and nothing is clipped.
+        var left = Matrix.SIZE
+        var right = -1
+        for (frame in small(condition, PROBE, PROBE).frames) {
+            for (i in frame.indices) if (frame[i] > 0) {
+                left = minOf(left, i % Matrix.SIZE - PROBE)
+                right = maxOf(right, i % Matrix.SIZE - PROBE)
+            }
+        }
+        val x = (2 * (Matrix.SIZE / 2) - (left + right) + 1) / 2
+        return small(condition, x, y)
+    }
 
     private val designs: Map<Condition, Canvas.(t: Double) -> Unit> = mapOf(
         Condition.CLEAR_DAY to { t -> sun(12.5, 12.5, core = 4.6, rayFrom = 7.0, rayTo = 9.6, t = t) },

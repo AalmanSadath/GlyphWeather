@@ -41,3 +41,12 @@ enum class TemperatureUnit(val symbol: String) {
         FAHRENHEIT -> celsius * 9 / 5 + 32
     }.roundToInt()
 }
+
+/** Which weather icons the toy draws. */
+enum class IconStyle {
+    /** Nothing Weather's widget animations (the `nothing-art` module). */
+    NOTHING,
+
+    /** The pixel-art icons in the `icons` module. */
+    ORIGINAL,
+}

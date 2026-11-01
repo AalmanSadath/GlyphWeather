@@ -14,6 +14,7 @@ import android.os.Messenger
 import android.os.PowerManager
 import android.util.Log
 import com.nothing.ketchum.GlyphToy
+import dev.aalman.glyph.weather.data.IconStyle
 import dev.aalman.glyph.weather.data.Page
 import dev.aalman.glyph.weather.data.PageRenderer
 import dev.aalman.glyph.weather.data.Refresh
@@ -41,7 +42,13 @@ class WeatherToyService : Service() {
     private var shown: Shown? = null
 
     /** What is on the matrix now, so redraw requests that change nothing are skipped. */
-    private data class Shown(val page: Page, val snapshot: WeatherSnapshot?, val unit: TemperatureUnit, val animate: Boolean)
+    private data class Shown(
+        val page: Page,
+        val snapshot: WeatherSnapshot?,
+        val unit: TemperatureUnit,
+        val style: IconStyle,
+        val animate: Boolean,
+    )
 
     private val events = Messenger(object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
@@ -64,6 +71,8 @@ class WeatherToyService : Service() {
     private val screen = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             Log.d(TAG, "broadcast ${intent.action}")
+            // Nothing's animations play once; waking the phone plays the current one again.
+            if (intent.action == Intent.ACTION_SCREEN_ON) shown = null
             render()
         }
     }
@@ -123,10 +132,11 @@ class WeatherToyService : Service() {
         val animate = if (power.isInteractive) settings.animate else settings.animateAod
 
         Log.d(TAG, "render page=$page interactive=${power.isInteractive} animate=$animate")
-        val next = Shown(page, snapshot, unit, animate)
+        val style = settings.iconStyle
+        val next = Shown(page, snapshot, unit, style, animate)
         if (next == shown) return
         shown = next
-        player.play(renderer.render(page, snapshot, unit), animate)
+        player.play(renderer.render(page, snapshot, unit, style), animate)
     }
 
     private companion object {

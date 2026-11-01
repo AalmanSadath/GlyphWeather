@@ -14,3 +14,4 @@ app/libs/
 keystore.properties
 *.jks
 *.keystore
+__pycache__/

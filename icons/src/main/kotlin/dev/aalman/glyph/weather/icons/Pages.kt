@@ -11,22 +11,27 @@ object Pages {
      * Small condition icon in the top half with the temperature, e.g. "23°", centred below it.
      * Animated like the icon; the number stays still.
      */
-    fun current(condition: Condition, temperature: Int): Animation {
-        val icon = WeatherIcons.small(condition, x = (Matrix.SIZE - WeatherIcons.SMALL_SIZE) / 2, y = ICON_TOP)
-        val text = "$temperature°"
-        val x = (Matrix.SIZE - PixelFont.width(text)) / 2
+    fun current(
+        condition: Condition,
+        temperature: Int,
+        icon: Animation = WeatherIcons.smallCentred(condition, SMALL_ICON_Y),
+    ): Animation {
         val frames = icon.frames.map { frame ->
-            frame.copyOf().also { PixelFont.draw(it, text, x, TEXT_TOP) }
+            frame.copyOf().also { temperature(it, temperature, TEXT_TOP, 255) }
         }
-        return Animation(frames, icon.frameMillis, icon.stillIndex)
+        return Animation(frames, icon.frameMillis, icon.stillIndex, icon.loop)
     }
+
+    /** Top-left corner of the 12×12 small-icon square on [current]. */
+    const val SMALL_ICON_X = (Matrix.SIZE - WeatherIcons.SMALL_SIZE) / 2
+    const val SMALL_ICON_Y = ICON_TOP
 
     /** Today's high above a faint divider, the low below it and dimmer. */
     fun hiLo(high: Int, low: Int): Animation {
         val frame = IntArray(Matrix.CELLS)
-        centredText(frame, "$high°", top = 4, brightness = 255)
+        temperature(frame, high, top = 4, brightness = 255)
         for (x in 7..17) frame[12 * Matrix.SIZE + x] = DIVIDER
-        centredText(frame, "$low°", top = 14, brightness = LOW_TEXT)
+        temperature(frame, low, top = 14, brightness = LOW_TEXT)
         return Animation(listOf(frame), STATIC_MILLIS)
     }
 
@@ -58,7 +63,17 @@ object Pages {
     }
 
     private fun centredText(frame: IntArray, text: String, top: Int, brightness: Int) =
-        PixelFont.draw(frame, text, (Matrix.SIZE - PixelFont.width(text)) / 2, top, brightness)
+        PixelFont.draw(frame, text, (Matrix.SIZE - PixelFont.width(text) + 1) / 2, top, brightness)
+
+    /**
+     * Draws "[value]°" with the digits centred on the matrix and the degree sign hanging to the
+     * right. Centring the whole string puts the digits 2 LEDs left, because the degree sign is a
+     * small mark at the top. Even-width numbers lean half an LED right.
+     */
+    private fun temperature(frame: IntArray, value: Int, top: Int, brightness: Int) {
+        val digits = value.toString()
+        PixelFont.draw(frame, "$digits°", (Matrix.SIZE - PixelFont.width(digits) + 1) / 2, top, brightness)
+    }
 
     private const val STATIC_MILLIS = 1000
     private const val DIVIDER = 70

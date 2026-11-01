@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import dev.aalman.glyph.weather.art.NothingArt
 import dev.aalman.glyph.weather.glyph.GlyphConnection
 import dev.aalman.glyph.weather.glyph.MatrixPlayer
 import dev.aalman.glyph.weather.icons.Condition
@@ -65,6 +66,16 @@ class IconTestActivity : Activity() {
 
         for (c in Condition.entries) {
             column.addView(button(c.name) { current = c; replay() })
+        }
+
+        for (hot in listOf(true, false)) {
+            val label = if (hot) "Nothing extreme heat" else "Nothing extreme cold"
+            column.addView(button(label) {
+                val anim = NothingArt.extreme(hot) ?: return@button
+                current = null
+                player.play(anim, animate)
+                status.text = "Showing: $label"
+            })
         }
 
         column.addView(button("Hi/Lo page (tap for next sample)") {

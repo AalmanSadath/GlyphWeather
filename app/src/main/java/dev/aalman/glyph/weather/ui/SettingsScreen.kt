@@ -51,7 +51,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.aalman.glyph.weather.R
+import dev.aalman.glyph.weather.art.NothingArt
 import dev.aalman.glyph.weather.data.Conditions
+import dev.aalman.glyph.weather.data.IconStyle
 import dev.aalman.glyph.weather.data.Page
 import dev.aalman.glyph.weather.data.Refresh
 import dev.aalman.glyph.weather.data.Settings
@@ -108,6 +110,10 @@ fun SettingsScreen() {
                 }
             }
 
+            if (NothingArt.available) {
+                IconStyleChoice(settings.iconStyle) { settings.iconStyle = it }
+            }
+
             Section(R.string.section_pages) {
                 Text(stringResource(R.string.pages_hint), style = MaterialTheme.typography.bodySmall)
                 PageList(
@@ -131,6 +137,13 @@ fun SettingsScreen() {
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 contentPadding = PaddingValues(8.dp),
             ) { Text(stringResource(R.string.attribution), style = MaterialTheme.typography.bodySmall) }
+            if (NothingArt.available) {
+                Text(
+                    stringResource(R.string.art_credit),
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                )
+            }
             Spacer(Modifier.height(8.dp))
         }
     }
@@ -169,6 +182,25 @@ private fun WeatherStatus(snapshot: WeatherSnapshot?, unit: TemperatureUnit, onR
         }
         Spacer(Modifier.height(8.dp))
         OutlinedButton(onClick = onRefresh) { Text(stringResource(R.string.refresh_now)) }
+    }
+}
+
+@Composable
+private fun IconStyleChoice(style: IconStyle, onChange: (IconStyle) -> Unit) {
+    Section(R.string.section_icons) {
+        SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+            IconStyle.entries.forEachIndexed { i, option ->
+                SegmentedButton(
+                    selected = style == option,
+                    onClick = { onChange(option) },
+                    shape = SegmentedButtonDefaults.itemShape(i, IconStyle.entries.size),
+                ) {
+                    Text(stringResource(if (option == IconStyle.NOTHING) R.string.icons_nothing else R.string.icons_original))
+                }
+            }
+        }
+        Spacer(Modifier.height(8.dp))
+        Text(stringResource(R.string.icons_hint), style = MaterialTheme.typography.bodySmall)
     }
 }
 
