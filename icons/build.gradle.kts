@@ -39,3 +39,11 @@ tasks.register<JavaExec>("preview") {
     args(out.get().asFile.absolutePath)
     outputs.dir(out)
 }
+
+tasks.register<JavaExec>("appIcons") {
+    group = "build"
+    description = "Regenerates the app's toy preview and launcher icon drawables from the clear-day icon."
+    classpath = preview.runtimeClasspath
+    mainClass.set("dev.aalman.glyph.weather.icons.preview.AppIconsKt")
+    args(rootProject.file("app/src/main/res/drawable").absolutePath)
+}

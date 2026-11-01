@@ -115,6 +115,9 @@ API.
 renders every icon and page as animated GIFs and contact sheets into
 `icons/build/icon-preview/`.
 
+`./gradlew :icons:appIcons` redraws the launcher icon and the Glyph Toys preview from the
+clear-day icon, following Nothing's Phone (3) Glyph preview image specification.
+
 Debug builds also include an icon tester: an app ("Glyph Weather icon test") that shows any
 icon or page on the matrix, and a Glyph Toy ("[Debug] Icon tester") that steps through them
 with a long press. Neither is in release builds.
