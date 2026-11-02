@@ -28,6 +28,21 @@ The app has three pages. The middle one shows the selected city: the current tem
 condition, today's high and low, the weather icon as it appears on the Glyph Matrix, the coming
 hours with a temperature line, and the next 5 to 7 days. Pull down to refresh.
 
+<table>
+  <tr>
+    <td><img src="docs/screenshots/locations.png" alt="Locations page: a search field above cards for Sydney, Melbourne and New York, each with an icon, condition and temperature" width="260"></td>
+    <td><img src="docs/screenshots/weather.png" alt="Weather page for Sydney: 19 °C and drizzle, the dot-matrix rain icon, the coming hours and the next days" width="260"></td>
+    <td><img src="docs/screenshots/settings.png" alt="Settings page: weather source, update interval, temperature unit, search country and Glyph Toy options" width="260"></td>
+  </tr>
+  <tr>
+    <td align="center">Locations</td>
+    <td align="center">Weather</td>
+    <td align="center">Settings</td>
+  </tr>
+</table>
+
+Shown with the original icons and Open-Meteo.
+
 The pin opens **Locations**: every city you've searched for, each with its current temperature
 and condition. Tap one to select it, swipe one left to remove it, or hold one for 1 second to
 reorder the list. The Glyph Toy always shows the selected city. Search puts places in your
@@ -36,9 +51,8 @@ then places in the states of cities you've saved, then bigger places. Typing a s
 country after a comma, as in "Epping, New South Wales", narrows the results.
 
 The gear opens **Settings**: the weather source and how often it updates, °C or °F, the search
-country, the Glyph
-Toy's pages, Nothing's or the original icons, and animation, separately for normal use and for
-the always-on display (set in Settings → Glyph Interface → Flip to Glyph → Always-on Glyph Toy).
+country, the Glyph Toy's pages, Nothing's or the original icons, and animation, separately for
+normal use and for the always-on display (set in Settings → Glyph Interface → Flip to Glyph → Always-on Glyph Toy).
 
 With Nothing's icons, the animation plays once when the page appears or the screen turns on,
 then stays on its last frame. At 40 °C and above the Animation page shows Nothing's extreme heat
