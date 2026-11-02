@@ -3,6 +3,9 @@ package dev.aalman.glyph.weather.ui
 import android.text.format.DateFormat
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,12 +37,18 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -125,29 +134,77 @@ fun WeatherScreen(
             onRefresh = { refreshing = true; onRefresh() },
             modifier = Modifier.fillMaxSize().padding(padding),
         ) {
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 20.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                CurrentConditions(state)
-                state.forecast?.let { forecast ->
-                    val zone = state.city.zone
-                    val now = System.currentTimeMillis()
-                    TodayCard(forecast.hoursFrom(now), zone, state.unit, state.style)
-                    val days = forecast.days(zone, now)
-                    if (days.isNotEmpty()) NextDaysCard(days, forecast.hourAt(now)?.temperature, zone, state.unit, state.style)
+            BoxWithConstraints(Modifier.fillMaxSize()) {
+                val scroll = rememberScrollState()
+                // The hero matrix and its margin at full size; scrolling down shrinks both
+                // before the cards move, so the figures above stay on screen.
+                val heroFull = with(LocalDensity.current) { (maxWidth - 40.dp).toPx() * HERO_WIDTH + 16.dp.toPx() }
+                val collapseRange = heroFull * (1f - HERO_MIN_SCALE)
+                var collapsed by rememberSaveable { mutableFloatStateOf(0f) }
+                val connection = remember(collapseRange) {
+                    object : NestedScrollConnection {
+                        // Finger moving up: shrink the hero first, then let the cards scroll.
+                        override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                            if (available.y >= 0) return Offset.Zero
+                            // Shrinking grows the cards' viewport, so stop once the cards fit:
+                            // the page ends with the last card at the bottom of the screen.
+                            val limit = minOf(collapseRange, collapsed + scroll.maxValue)
+                            val next = (collapsed - available.y).coerceAtMost(limit).coerceAtLeast(collapsed)
+                            val used = next - collapsed
+                            collapsed = next
+                            return Offset(0f, -used)
+                        }
+
+                        // Finger moving down: once the cards are back at the top, grow the hero.
+                        override fun onPostScroll(consumed: Offset, available: Offset, source: NestedScrollSource): Offset {
+                            if (available.y <= 0) return Offset.Zero
+                            val next = (collapsed - available.y).coerceAtLeast(0f)
+                            val used = collapsed - next
+                            collapsed = next
+                            return Offset(0f, used)
+                        }
+                    }
                 }
-                Spacer(Modifier.height(16.dp))
+                val scale = 1f - collapsed / heroFull
+
+                Column(Modifier.fillMaxSize().nestedScroll(connection)) {
+                    // Drags on the pinned header move the same scroll as the cards.
+                    Column(
+                        Modifier
+                            .scrollable(scroll, Orientation.Vertical, reverseDirection = true)
+                            .padding(horizontal = 20.dp),
+                    ) {
+                        CurrentConditions(state, scale)
+                    }
+                    Column(
+                        Modifier
+                            .weight(1f)
+                            .fillMaxWidth()
+                            .verticalScroll(scroll)
+                            .padding(start = 20.dp, end = 20.dp, bottom = CARD_GAP),
+                        verticalArrangement = Arrangement.spacedBy(CARD_GAP),
+                    ) {
+                        WeatherCards(state)
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-private fun CurrentConditions(state: WeatherPageState) {
+private fun WeatherCards(state: WeatherPageState) {
+    state.forecast?.let { forecast ->
+        val zone = state.city!!.zone
+        val now = System.currentTimeMillis()
+        TodayCard(forecast.hoursFrom(now), zone, state.unit, state.style)
+        val days = forecast.days(zone, now)
+        if (days.isNotEmpty()) NextDaysCard(days, forecast.hourAt(now)?.temperature, zone, state.unit, state.style)
+    }
+}
+
+@Composable
+private fun CurrentConditions(state: WeatherPageState, scale: Float) {
     val context = LocalContext.current
     val now = System.currentTimeMillis()
     val zone = state.city!!.zone
@@ -211,11 +268,18 @@ private fun CurrentConditions(state: WeatherPageState) {
             IconArt.full(condition, state.style, temperature)
         }
         val frame = animatedFrame(animation, state.animate)
-        Box(Modifier.fillMaxWidth().padding(vertical = 8.dp), contentAlignment = Alignment.Center) {
-            DotFrame(frame, Modifier.fillMaxWidth(0.72f).aspectRatio(1f), showUnlit = true)
+        Box(Modifier.fillMaxWidth().padding(vertical = (8 * scale).dp), contentAlignment = Alignment.Center) {
+            DotFrame(frame, Modifier.fillMaxWidth(HERO_WIDTH * scale).aspectRatio(1f), showUnlit = true)
         }
     }
 }
+
+/** The hero matrix's width as a share of the page, and its smallest size once scrolled. */
+private const val HERO_WIDTH = 0.72f
+private const val HERO_MIN_SCALE = 0.35f
+
+/** Space between the cards, and below the last one. */
+private val CARD_GAP = 16.dp
 
 private const val COLUMN_DP = 60
 
