@@ -1,6 +1,7 @@
 package dev.aalman.glyph.weather.data
 
 import dev.aalman.glyph.weather.art.NothingArt
+import dev.aalman.glyph.weather.data.source.SourceId
 import dev.aalman.glyph.weather.icons.Condition
 import dev.aalman.glyph.weather.icons.Pages
 import dev.aalman.glyph.weather.icons.WeatherIcons
@@ -11,11 +12,11 @@ import org.junit.jupiter.api.Test
 
 class PageRendererTest {
     private val snapshot = WeatherSnapshot(
+        source = SourceId.OPEN_METEO,
+        cityKey = "51.5000,-0.1300",
         fetchedAtMillis = 0,
         temperature = 13.7,
-        weatherCode = 63,
-        isDay = true,
-        windKmh = 12.0,
+        condition = Condition.RAIN,
         todayHigh = 15.2,
         todayLow = 8.4,
         hourlyPrecipitation = listOf(80, 60, 40, 20, 0, 0, 0, 0, 0, 0, 0, 10),

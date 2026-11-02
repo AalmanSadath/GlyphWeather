@@ -13,7 +13,7 @@ class OpenMeteoLiveTest {
     @Test
     fun `search then forecast`() {
         val city = client.searchCities("London").first()
-        val s = client.forecast(city.latitude, city.longitude)
+        val s = client.fetch(city).snapshot
         println("${city.label}: $s")
         assertEquals(OpenMeteo.HOURS, s.hourlyPrecipitation.size)
         assertTrue(s.todayLow <= s.todayHigh)

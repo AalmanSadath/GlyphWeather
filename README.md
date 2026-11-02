@@ -11,7 +11,8 @@ on the back of the phone, across four pages:
 Long-press the Glyph Button to move to the next page.
 
 Weather data comes from [Open-Meteo](https://open-meteo.com/), which needs no API key and
-publishes its data under CC BY 4.0.
+publishes its data under CC BY 4.0. With your own API key the app can use
+[Tomorrow.io](https://www.tomorrow.io/) instead; see [Weather sources](#weather-sources).
 
 The weather icons are Nothing's own: the widget animations from the Nothing Weather app,
 converted for the 25×25 matrix. The app can switch to the original pixel-art icons instead,
@@ -19,20 +20,68 @@ which are drawn in code in the `icons` module.
 
 ## Using it
 
-1. Open **Glyph Weather** and choose your city.
-2. Tap **Add to Glyph Toys** and add **Weather** to your toys.
+1. Open **Glyph Weather**, tap the pin at the top left and search for your city.
+2. Tap the gear at the top right, then **Add to Glyph Toys**, and add **Weather** to your toys.
 3. Press the Glyph Button until Weather is selected.
 
-In the app you can also switch between °C and °F, choose Nothing's or the original icons,
-reorder or turn off pages, and turn animation off, separately for normal use and for the
-always-on display (set in Settings → Glyph Interface → Flip to Glyph → Always-on Glyph Toy).
+The app has three pages. The middle one shows the selected city: the current temperature and
+condition, today's high and low, the weather icon as it appears on the Glyph Matrix, the coming
+hours with a temperature line, and the next 5 to 7 days. Pull down to refresh.
+
+The pin opens **Locations**: every city you've searched for, each with its current temperature
+and condition. Tap one to select it, swipe one left to remove it, or hold one for 1 second to
+reorder the list. The Glyph Toy always shows the selected city. Search puts places in your
+country first (the phone's country, or the one set under **Location search** in Settings),
+then places in the states of cities you've saved, then bigger places. Typing a state or
+country after a comma, as in "Epping, New South Wales", narrows the results.
+
+The gear opens **Settings**: the weather source and how often it updates, °C or °F, the search
+country, the Glyph
+Toy's pages, Nothing's or the original icons, and animation, separately for normal use and for
+the always-on display (set in Settings → Glyph Interface → Flip to Glyph → Always-on Glyph Toy).
 
 With Nothing's icons, the animation plays once when the page appears or the screen turns on,
 then stays on its last frame. At 40 °C and above the Animation page shows Nothing's extreme heat
 animation instead of the condition, and at −10 °C and below the extreme cold one.
 
-The forecast refreshes about every 30 minutes. The only data sent anywhere is the city name
-you search for and your chosen city's coordinates, both to Open-Meteo.
+The selected city's forecast refreshes every 15, 30, 45 or 60 minutes (30 by default), set
+under **Weather source**. While the phone is idle, Android can delay a refresh beyond that.
+Every other saved city is refreshed once a day, one request each, so the Locations page costs
+nothing extra to open. The only data sent anywhere is the city names you search for, which go to
+Open-Meteo, and your saved cities' coordinates, which go to the selected weather source.
+
+## Weather sources
+
+The app uses one source at a time. Every page shows data from that source alone: switching
+sources deletes the cached forecast, and a forecast saved from another source or another city
+is never shown. City search always uses Open-Meteo, because it only turns a name into
+coordinates and a time zone.
+
+**Open-Meteo** is the default. It needs no account. Each refresh is one request for the
+current conditions, today's high and low, and 7 days of hourly temperature, weather, chance of
+rain and wind.
+
+**Tomorrow.io** needs a free account and its API key, entered under **Weather source** in the
+app. The app checks the key with one forecast request before saving it. The key is stored in
+its own file on the phone, left out of Android backups and device transfers, and only sent to
+Tomorrow.io.
+
+- Each refresh is one request to Tomorrow.io's Timelines API for 4 fields (temperature,
+  weather code, chance of rain and wind speed). It covers the current values plus 120 hours of
+  hourly values, the most the free plan returns, which is where the 5 days on the weather page
+  come from.
+- Tomorrow.io's free plan allows 500 requests a day, 25 an hour and 3 a second. Refreshing
+  the selected city every 15 minutes uses about 96 a day; every 60 minutes, about 24. Each
+  other saved city adds 1 a day. Tomorrow.io counts each request once, not once per field.
+- Today's high and low come from those hourly temperatures, in the city's own time zone, not
+  from Tomorrow.io's daily forecast. Hours already past aren't in a new forecast, so the app
+  keeps each hour's temperature from earlier refreshes the same day. The first refresh of a
+  day only covers the hours from then until midnight.
+- Tomorrow.io's current conditions don't say whether it's day or night, so the app works it
+  out from the sun's position at the city's coordinates.
+
+If Tomorrow.io rejects the key or the rate limit is reached, the app keeps showing the last
+forecast and says what went wrong in the Weather section. It doesn't fall back to Open-Meteo.
 
 ## Where Nothing's animations come from
 
@@ -127,7 +176,7 @@ with a long press. Neither is in release builds.
 | Module | What's in it |
 |---|---|
 | `icons` | Pure Kotlin: the LED mask, icons, pixel font and page layouts. No Android dependencies, so it runs in JVM tests and the preview renderer. |
-| `weather` | Pure Kotlin: the Open-Meteo client, weather-code mapping and page rendering. |
+| `weather` | Pure Kotlin: the Open-Meteo and Tomorrow.io clients, weather-code mapping and page rendering. |
 | `nothing-art` | Nothing's converted weather animations, the code that loads them, and the converter script. The animations are not under the GPL; see `nothing-art/NOTICE.md`. |
 | `app` | The Android app: settings screen, Glyph Toy service, background refresh, and the connection to the Glyph Matrix. |
 

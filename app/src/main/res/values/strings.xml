@@ -5,23 +5,18 @@
     <string name="toy_summary">Current weather, today\'s high and low, and the chance of rain. Long-press to switch pages.</string>
 
     <!-- Location -->
-    <string name="section_location">Location</string>
-    <string name="no_city">No city chosen yet</string>
-    <string name="choose_city">Choose city</string>
-    <string name="change_city">Change</string>
-    <string name="search_title">Find your city</string>
-    <string name="search_hint">City name</string>
+    <string name="no_city">No location chosen yet.</string>
+    <string name="choose_city">Choose a location</string>
+    <string name="search_hint">Search</string>
     <string name="searching">Searching…</string>
     <string name="search_no_results">No matches</string>
     <string name="search_failed">Couldn\'t reach Open-Meteo. Check your connection.</string>
     <string name="cancel">Cancel</string>
 
     <!-- Weather status -->
-    <string name="section_weather">Weather</string>
     <string name="weather_waiting">Waiting for the first forecast…</string>
-    <string name="weather_now">%1$s, %2$s</string>
-    <string name="weather_updated">Updated %1$s</string>
-    <string name="refresh_now">Refresh now</string>
+    <string name="weather_updated">From %1$s, updated %2$s</string>
+    <string name="weather_error">Last attempt at %1$s failed: %2$s</string>
 
     <!-- Units -->
     <string name="section_units">Temperature</string>
@@ -55,6 +50,27 @@
     <string name="activate_toy">Add to Glyph Toys</string>
     <string name="activate_toy_failed">Open Settings → Glyph Interface → Glyph Toys and add Weather.</string>
     <string name="attribution">Weather data by Open-Meteo.com</string>
+    <string name="attribution_tomorrow">Weather data by Tomorrow.io</string>
+    <string name="section_source">Weather source</string>
+    <string name="source_open_meteo">Open-Meteo</string>
+    <string name="source_tomorrow">Tomorrow.io</string>
+    <string name="source_open_meteo_hint">Free, no key needed.</string>
+    <string name="source_tomorrow_hint">Uses your own Tomorrow.io API key. At this interval the app makes about %1$d of the 500 requests a day the free plan allows.</string>
+    <string name="refresh_every">Update every</string>
+    <string name="refresh_minutes">%1$d min</string>
+    <string name="refresh_hint">While the phone is idle, Android can delay updates beyond this.</string>
+    <string name="tomorrow_key_title">Tomorrow.io API key</string>
+    <string name="tomorrow_key_hint">Create a free account at Tomorrow.io and copy the API key from its dashboard. The key stays on this phone and is only sent to Tomorrow.io.</string>
+    <string name="tomorrow_key_get">Open Tomorrow.io keys page</string>
+    <string name="tomorrow_key_label">API key</string>
+    <string name="tomorrow_key_save">Check and save</string>
+    <string name="tomorrow_key_checking">Checking the key with one forecast request…</string>
+    <string name="tomorrow_key_change">Change key</string>
+    <string name="tomorrow_key_remove">Remove key</string>
+    <string name="error_bad_key">Tomorrow.io rejected this key.</string>
+    <string name="error_rate_limited">Rate limit reached; try again later.</string>
+    <string name="error_network">Couldn\'t reach the weather service.</string>
+    <string name="error_bad_response">The weather service sent something unreadable.</string>
     <string name="art_credit">Weather animations © Nothing Technology Limited</string>
 
     <!-- Conditions -->
@@ -68,4 +84,29 @@
     <string name="condition_snow">Snow</string>
     <string name="condition_thunderstorm">Thunderstorm</string>
     <string name="condition_windy">Windy</string>
+    <string name="settings_title">Settings</string>
+    <string name="back">Back</string>
+    <string name="locations_title">Locations</string>
+    <string name="locations_empty">Search for a city to add it.</string>
+    <string name="location_removed">%1$s removed</string>
+    <string name="undo">Undo</string>
+    <string name="done">Done</string>
+    <string name="clear">Clear</string>
+    <string name="remove">Remove</string>
+    <string name="drag_to_reorder">Drag to reorder</string>
+    <string name="today_title">Today</string>
+    <string name="next_days_title">Next days</string>
+    <string name="now">Now</string>
+    <string name="today">Today</string>
+    <string name="high_value">H %1$d°</string>
+    <string name="low_value">L %1$d°</string>
+    <string name="section_toy">Glyph Toy</string>
+    <string name="toy_hint">Shows the selected location on the Glyph Matrix.</string>
+    <string name="section_about">About</string>
+    <string name="version">Version %1$s</string>
+    <string name="section_search">Location search</string>
+    <string name="search_country_hint">Places in this country are searched first, so they show above places with the same name elsewhere.</string>
+    <string name="search_country_title">Search country</string>
+    <string name="search_country_auto">Automatic (phone\'s country)</string>
+    <string name="search_country_auto_named">Automatic (%1$s)</string>
 </resources>

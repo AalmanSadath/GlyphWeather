@@ -33,7 +33,7 @@ class PageRenderer(private val art: NothingArtSource = NothingArtSource.Bundled)
     /** [snapshot] is null before the first forecast arrives (or before a city is chosen). */
     fun render(page: Page, snapshot: WeatherSnapshot?, unit: TemperatureUnit, style: IconStyle): Animation {
         if (snapshot == null) return Pages.unknown()
-        val condition = Conditions.from(snapshot)
+        val condition = snapshot.condition
         val nothing = style == IconStyle.NOTHING && art.available
         return when (page) {
             Page.CURRENT -> {

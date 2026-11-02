@@ -22,6 +22,7 @@ import dev.aalman.glyph.weather.data.Settings
 import dev.aalman.glyph.weather.data.TemperatureUnit
 import dev.aalman.glyph.weather.data.WeatherCache
 import dev.aalman.glyph.weather.data.WeatherSnapshot
+import dev.aalman.glyph.weather.data.usableFor
 import dev.aalman.glyph.weather.glyph.GlyphConnection
 import dev.aalman.glyph.weather.glyph.MatrixPlayer
 
@@ -120,14 +121,15 @@ class WeatherToyService : Service() {
     }
 
     private fun refreshIfStale() {
-        if (settings.city != null && cache.isStale()) Refresh.now(this)
+        if (settings.city != null && cache.isStale(settings.source, settings.city, Refresh.maxAgeMillis(settings))) Refresh.now(this)
     }
 
     private fun render() {
         val player = player ?: return
         val pages = settings.enabledPages
         val page = pages[pageIndex.mod(pages.size)]
-        val snapshot = if (settings.city == null) null else cache.snapshot
+        // Data from another source or city is never shown, even for a moment after a switch.
+        val snapshot = cache.snapshot.usableFor(settings.source, settings.city)
         val unit = settings.unit
         val animate = if (power.isInteractive) settings.animate else settings.animateAod
 
